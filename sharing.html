@@ -11,68 +11,35 @@
 <div class="container">
 
     <h2>Add Contact</h2>
-    <input type="text" id="username" placeholder="Username">
-    <input type="email" id="email" placeholder="Email">
-    <button onclick="addContact()">Add Contact</button>
+    <form>
+        <input type="text" placeholder="Username"><br>
+        <input type="email" placeholder="Email"><br>
+        <button>Add Contact</button>
+    </form>
 
     <h2>Add Item</h2>
-    <input type="text" id="itemName" placeholder="Item Name">
-    <input type="text" id="width" placeholder="Width">
-    <input type="text" id="height" placeholder="Height">
-    <input type="text" id="length" placeholder="Length">
+    <form>
+        <input type="text" placeholder="Item Name"><br>
+        <input type="text" placeholder="Width"><br>
+        <input type="text" placeholder="Height"><br>
+        <input type="text" placeholder="Length"><br>
 
-    <select id="status">
-        <option value="Available">Available</option>
-        <option value="Borrowed">Borrowed</option>
-    </select>
+        <select>
+            <option>Available</option>
+            <option>Borrowed</option>
+        </select><br>
 
-    <select id="borrower"></select>
-
-    <button onclick="addItem()">Add Item</button>
+        <input type="text" placeholder="Select Borrower"><br>
+        <button>Save Item</button>
+    </form>
 
     <h2>Items</h2>
-    <ul id="itemList"></ul>
+    <ul>
+        <li>Book - Available</li>
+        <li>Laptop - Borrowed</li>
+    </ul>
 
 </div>
-
-<script>
-let contacts = [];
-let items = [];
-
-function addContact() {
-    let username = document.getElementById("username").value;
-    let email = document.getElementById("email").value;
-
-    contacts.push({username, email});
-
-    let select = document.getElementById("borrower");
-    let option = document.createElement("option");
-    option.text = username;
-    select.add(option);
-}
-
-function addItem() {
-    let name = document.getElementById("itemName").value;
-    let status = document.getElementById("status").value;
-    let borrower = document.getElementById("borrower").value;
-
-    items.push({name, status, borrower});
-
-    displayItems();
-}
-
-function displayItems() {
-    let list = document.getElementById("itemList");
-    list.innerHTML = "";
-
-    items.forEach(item => {
-        let li = document.createElement("li");
-        li.innerText = item.name + " - " + item.status +
-            (item.status === "Borrowed" ? " (" + item.borrower + ")" : "");
-        list.appendChild(li);
-    });
-}
-</script>
 
 </body>
 </html>
