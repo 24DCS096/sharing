@@ -1,21 +1,38 @@
 import java.util.ArrayList;
 
-// Contact Class
+/* =========================
+   CONTACT CLASS
+========================= */
 class Contact {
-    String username;
-    String email;
-    boolean isBorrower;
+    private String username;
+    private String email;
+    private boolean isBorrower;
 
     public Contact(String username, String email) {
         this.username = username;
         this.email = email;
         this.isBorrower = false;
     }
+
+    public String getUsername() { return username; }
+    public String getEmail() { return email; }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isBorrower() { return isBorrower; }
+
+    public void setBorrower(boolean status) {
+        this.isBorrower = status;
+    }
 }
 
-// Dimensions Class
+/* =========================
+   DIMENSIONS CLASS
+========================= */
 class Dimensions {
-    String width, height, length;
+    private String width, height, length;
 
     public Dimensions(String w, String h, String l) {
         width = w;
@@ -24,37 +41,43 @@ class Dimensions {
     }
 }
 
-// Item Class
+/* =========================
+   ITEM CLASS
+========================= */
 class Item {
-    String name;
-    boolean available;
-    Contact borrower;
-    Dimensions dimensions;
+    private String name;
+    private boolean available;
+    private Contact borrower;
+    private Dimensions dimensions;
 
-    public Item(String name, Dimensions d) {
+    public Item(String name, Dimensions dimensions) {
         this.name = name;
-        this.dimensions = d;
+        this.dimensions = dimensions;
         this.available = true;
     }
 
-    public void borrow(Contact c) {
-        available = false;
-        borrower = c;
-        c.isBorrower = true;
+    public void borrow(Contact contact) {
+        this.available = false;
+        this.borrower = contact;
+        contact.setBorrower(true);
     }
 
     public void returnItem() {
-        if (borrower != null) {
-            borrower.isBorrower = false;
-        }
+        this.available = true;
+        if (borrower != null) borrower.setBorrower(false);
         borrower = null;
-        available = true;
+    }
+
+    public boolean isAvailable() {
+        return available;
     }
 }
 
-// ItemList Class
+/* =========================
+   ITEM LIST (AGGREGATION)
+========================= */
 class ItemList {
-    ArrayList<Item> items = new ArrayList<>();
+    private ArrayList<Item> items = new ArrayList<>();
 
     public void addItem(Item item) {
         items.add(item);
@@ -63,35 +86,30 @@ class ItemList {
     public ArrayList<Item> getAvailableItems() {
         ArrayList<Item> result = new ArrayList<>();
         for (Item i : items) {
-            if (i.available) result.add(i);
-        }
-        return result;
-    }
-
-    public ArrayList<Item> getBorrowedItems() {
-        ArrayList<Item> result = new ArrayList<>();
-        for (Item i : items) {
-            if (!i.available) result.add(i);
+            if (i.isAvailable()) result.add(i);
         }
         return result;
     }
 }
 
-// Main App Simulation
-public class sharing {
+/* =========================
+   MAIN PROGRAM
+========================= */
+public class Sharing {
+
     public static void main(String[] args) {
 
+        // Create contacts
         Contact c1 = new Contact("john", "john@email.com");
+        Contact c2 = new Contact("anna", "anna@email.com");
 
-        Dimensions d = new Dimensions("10", "5", "3");
-
+        // Create item
+        Dimensions d = new Dimensions("10", "20", "30");
         Item item = new Item("Laptop", d);
 
-        ItemList list = new ItemList();
-        list.addItem(item);
-
+        // Borrow item
         item.borrow(c1);
 
-        System.out.println(item.name + " borrowed by " + c1.username);
+        System.out.println("Item borrowed by: " + c1.getUsername());
     }
 }
