@@ -8,7 +8,7 @@ CREATE TABLE Contacts (
 CREATE TABLE Items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    status TEXT CHECK(status IN ('Available','Borrowed')) NOT NULL,
+    status TEXT CHECK(status IN ('Available','Borrowed')),
     borrower_id INTEGER,
     FOREIGN KEY (borrower_id) REFERENCES Contacts(id)
 );
